@@ -1,0 +1,62 @@
+<!doctype html>
+
+<html>
+
+<head>
+  <title>simple virtual dom example</title>
+</head>
+<script src="../dist/bundle.js"></script>
+
+<body>
+  <input type="button" value="生成dom" onclick="handleClick1()">
+  <input type="button" value="diff dom" onclick="handleClick2()">
+
+</body>
+<script>
+  var ulRoot;
+  function handleClick1() {
+    var el = vd.el;
+    var ul = el('div',{id:'virtual-dom'},[
+      el('p',{},['Virtual DOM']),
+      el('ul', { id: 'list' }, [
+        el('li', { class: 'item' }, ['Item 1']),
+        el('li', { class: 'item' }, ['Item 2']),
+        el('li', { class: 'item' }, ['Item 3'])
+      ]),
+      el('div',{},['Hello World'])
+    ]) 
+ 
+    console.log(ul);
+    ulRoot = ul.render();
+    document.body.appendChild(ulRoot);
+  }
+  function handleClick2(){
+    var el = vd.el
+    var diff = vd.diff
+    var patch = vd.patch
+
+    var ul1 = el('div',{id:'virtual-dom'},[
+      el('p',{},['Virtual DOM']),
+      el('ul', { id: 'list' }, [
+        el('li', { class: 'item' }, ['Item 1']),
+        el('li', { class: 'item' }, ['Item 2']),
+        el('li', { class: 'item' }, ['Item 3'])
+      ]),
+      el('div',{},['Hello World'])
+    ]) 
+    var ul2 = el('div',{id:'virtual-dom'},[
+      el('p',{},['Virtual DOM']),
+      el('ul', { id: 'list' }, [
+        el('li', { class: 'item' }, ['Item 21']),
+        el('li', { class: 'item' }, ['Item 23'])
+      ]),
+      el('p',{},['Hello World'])
+    ]) 
+    var patches = diff(ul1,ul2);
+    console.log('patches:',patches);
+
+    patch(ulRoot,patches);
+  }
+</script>
+
+</html>

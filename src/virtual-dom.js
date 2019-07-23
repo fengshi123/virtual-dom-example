@@ -1,0 +1,1 @@
+window.vd = require('./index')
